@@ -80,7 +80,7 @@ WSGI_APPLICATION = "foodmacros.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'catcollector',
+        'NAME': 'foodmacros',
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PW'),
         'HOST': env('HOST'),
