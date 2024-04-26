@@ -1,6 +1,101 @@
+/* ------common css ----- */
+/* <uniquifier>: Use a unique and descriptive class name
+<weight>: Use a value from 100 to 900 */
+
+.libre-franklin-extrabold {
+  font-family: "Libre Franklin", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.libre-franklin-light {
+  font-family: "Libre Franklin", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.ibm-plex-mono-regular {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h2 {
+  font-size: 20px;
+  color: darkgrey;
+}
+
+.btn {
+  font-size: 16px;
+  padding: 15px 30px;
+  margin-top: 50px;
+  color: white;
+  background-color: #3cb371;
+}
+
+.contbtn {
+  text-align: center;
+}
+
 .card {
   border-color: transparent !important;
   opacity: 87%;
+}
+
+/* -----navbar----- */
+
+/* ------hero section----- */
+.hero-one {
+  background-image: url("../images/hero1.jpeg");
+  height: 600px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+
+  h1 {
+    font-size: 72px;
+    text-shadow: 2px 2px 10px black;
+  }
+}
+
+.landing-zero {
+  margin: 0 10px;
+}
+
+.landing-one {
+  width: 50%;
+}
+
+.landing-three {
+  background-image: url("../images/sandwich.jpeg");
+  height: 600px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 50px;
+}
+
+.landing-four {
+  text-align: center;
+  margin: 0 300px;
+}
+
+.landing-five {
+  h3 {
+    font-size: 14px;
+    color: #3cb371;
+  }
 }
 
 /* ----footer------ */
