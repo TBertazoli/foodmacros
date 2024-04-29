@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
+from django.views.generic import ListView, DetailView
 import os
 from dotenv import load_dotenv
 from django.http import JsonResponse
+from .models import Search_Food
 load_dotenv()
 
 
@@ -29,3 +31,13 @@ def about(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
+
+def account(request):
+    # response = get_url(request)
+    return render(request, 'foods/index.html')
+
+
+class SearchFood(ListView):
+    model = Search_Food
+    fields = ['search']

@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<div class="hero hero-two">
+  <div class="container-md">
+    <div class="row">
+      <div class="col">
+        <h3 class="libre-franklin-semibold">Account</h3>
+        <h1 class="libre-franklin-extrabold">Welcome to you account page!</h1>
+        <h2 class="libre-franklin-light">
+          Here you can manage your account settings, view your profile, and
+          more.
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="landing-zero container">
+  <div>Profile Page</div>
+
+  <div>Name, email, password, weight</div>
+  <input type="text" placeholder="Food Search" id="food-search" />
+  <button type="submit" onclick="getInput()">Search</button>
+</div>
+<script>
+  function getInput() {
+    const input = document.getElementById("food-search").value;
+    console.log(input);
+  }
+</script>
+{% endblock %}
