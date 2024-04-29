@@ -23,7 +23,11 @@ def contact(request):
 
 def account(request):
     # response = get_url(request)
-    return render(request, 'foods/index.html')
+    return render(request, 'account/index.html')
+
+
+def tracker(request):
+    return render(request, 'account/fooddiary.html')
 
 
 def search(request):
@@ -36,4 +40,4 @@ def search(request):
     response = requests.get(url)
     data = response.json()
     print(data)
-    return render(request, 'foods/index.html', {'data': data})
+    return render(request, 'account/fooddiary.html', {'data': data})
