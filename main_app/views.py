@@ -9,18 +9,6 @@ load_dotenv()
 
 
 # Create your views here.
-def get_url(request):
-    api_key = os.getenv('APPLICATION_KEY')
-    api_id = os.getenv('APPLICATION_ID')
-    print(api_key)
-
-    url = f'https://api.edamam.com/api/food-database/v2/parser?app_id={api_id}&app_key={api_key}&ingr=rice&nutrition-type=cooking'
-
-    response = requests.get(url)
-    data = response.json()
-    print(data)
-
-
 def home(request):
     return render(request, 'home.html')
 
@@ -38,6 +26,14 @@ def account(request):
     return render(request, 'foods/index.html')
 
 
-class SearchFood(ListView):
-    model = Search_Food
-    fields = ['search']
+def search(request):
+    api_key = os.getenv('APPLICATION_KEY')
+    api_id = os.getenv('APPLICATION_ID')
+    search = request.GET.get('food-search')
+    url = "https://api.edamam.com/api/food-database/v2/parser?app_id=" + \
+        api_id + "&app_key=" + api_key + "&ingr=" + search + "&nutrition-type=cooking"
+
+    response = requests.get(url)
+    data = response.json()
+    print(data)
+    return render(request, 'foods/index.html', {'data': data})

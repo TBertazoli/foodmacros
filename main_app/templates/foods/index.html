@@ -17,13 +17,17 @@
   <div>Profile Page</div>
 
   <div>Name, email, password, weight</div>
-  <input type="text" placeholder="Food Search" id="food-search" />
-  <button type="submit" onclick="getInput()">Search</button>
+  <form action="{% url 'search' %}" method="GET>
+    {% csrf_token %}
+    <input type="text" placeholder="Food Search" name="food-search" />
+    <button type="submit">Search</button>
+  </form>
+  
 </div>
-<script>
+<!-- <script>
   function getInput() {
     const input = document.getElementById("food-search").value;
     console.log(input);
   }
-</script>
+</script> -->
 {% endblock %}
