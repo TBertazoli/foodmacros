@@ -1,3 +1,4 @@
+from js.jquery import jquery
 from django.shortcuts import render, redirect
 import requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -5,8 +6,7 @@ from django.views.generic import ListView, DetailView
 import os
 from dotenv import load_dotenv
 from .models import Add_Food
-from.forms import AddFoodForm
-from js.jquery import jquery
+from .forms import AddFoodForm
 jquery.need()
 load_dotenv()
 
@@ -30,9 +30,9 @@ def account(request):
 
 
 def tracker(request):
-    food = Add_Food.objects.all()
+    foods = Add_Food.objects.all()
     return render(request, 'account/tracker.html', {
-        'food': food
+        'foods': foods
 
     })
 
@@ -56,4 +56,3 @@ def food_create(request):
         if form.is_valid():
             form.save()
             return redirect('tracker')
-

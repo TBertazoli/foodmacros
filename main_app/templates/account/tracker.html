@@ -51,45 +51,39 @@
       </div>
     </div> 
   </div>
-     
-      
-      <!-- <table class="table">
+
+  <div class="food-diary container-md mt-5"> 
+    <h3 class="libre-franklin-semibold">Food Diary</h3>
+    
+      <table class="table mt-5">        
+        <thead>
+          <tr>
+            <th>Food Name</th>
+            <th>Quantity(g)</th>
+            <th>Calories (Kcal)</th>
+            <th>Protein(g)</th>
+            <th>Fat(g)</th>
+            <th>Carbs(g)</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr>
-            <th scope="row">Food</th>
-            <td>
-              {{ food.food.label }} - {{ food.food.nutrients.ENERC_KCAL }} cal/
-              100g
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Quantity(g)</th>
-            <td><input type="number"/></td>
-          </tr>
-          <tr>
-            <th scope="row">Add Food</th>
-            <td><button>Add</button></td>
+          {% for food in foods %} 
+          <tr>           
+            <td>{{ food.name }}</td>     
+            <td>{{food.weight}}</td>
+            <td>{{food.calories}}</td>
+            <td>{{food.protein}}</td>
+            <td>{{food.fat}}</td>
+            <td>{{food.carbs}}</td>
           </tr>
         </tbody>
-      </table> -->
-    </form>
-    
-  </div>
-
-  <!-- Button trigger modal -->
-  <!-- <button
-    type="button"
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#add-food"
-    onclick="openModal()"
-  >
-    Launch demo modal
-  </button> -->
-</div>
+        {% endfor %}
+      </table>
+     
+    </div>
 
 <script>
-  function populateFields(event) {
+    function populateFields(event) {
     const food = jQuery.parseJSON(event.target.value.replace(/'/g, '"'));
    
     $('#food-name').val(food.label);
@@ -97,9 +91,7 @@
     $('#food-protein').val(food.nutrients.PROCNT);
     $('#food-fat').val(food.nutrients.FAT);
     $('#food-carbs').val(food.nutrients.CHOCDF);  
-
   }
-
 </script>
 
 {% endblock %}
