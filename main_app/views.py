@@ -46,13 +46,18 @@ def search(request):
 
     response = requests.get(url)
     data = response.json()
+    foods = Add_Food.objects.all()
     print(data)
-    return render(request, 'account/tracker.html', {'data': data})
+    return render(request, 'account/tracker.html', {'data': data, 'foods': foods})
 
 
 def food_create(request):
+    foods = Add_Food.objects.all()
     if request.method == 'POST':
+
+        print(request.POST)
         form = AddFoodForm(request.POST)
+        print('here', form.is_valid(), form.errors)
         if form.is_valid():
             form.save()
-            return redirect('tracker')
+        return render(request, 'account/tracker.html', {'foods': foods})

@@ -65,7 +65,7 @@ h2 {
 
 .btn {
   font-size: 16px;
-  padding: 15px 30px;
+  padding: 8px 20px;
   margin-top: 50px;
   color: white;
   background-color: #77ab60;
@@ -150,9 +150,6 @@ h2 {
 }
 
 /* ------food diary------- */
-#search-input {
-  line-height: 30px !important;
-}
 
 /* ----contact------ */
 .contact-two {
