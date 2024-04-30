@@ -149,6 +149,11 @@ h2 {
   }
 }
 
+/* ------food diary------- */
+#search-input {
+  line-height: 30px !important;
+}
+
 /* ----contact------ */
 .contact-two {
   font-size: 14px;

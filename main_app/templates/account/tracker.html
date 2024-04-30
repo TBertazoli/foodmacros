@@ -1,0 +1,105 @@
+{% extends 'base.html' %} {% block content %}
+
+  <div class="hero hero-two">
+    <div class="container-md">
+      <div class="row">
+        <div class="col">
+          <h3 class="libre-franklin-semibold">Food Tracker</h3>
+          <h1 class="libre-franklin-extrabold">
+            Welcome to your tracking page!
+          </h1>
+          <h2 class="libre-franklin-light">
+            Here you can add, delete and update all your meals that you have
+            consumed thoughout the day.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-diary container-md mt-5">
+    <h3 class="libre-franklin-semibold">Add Food</h3>
+    <div class="row">
+      <div class="col">        
+        <form action="{% url 'search' %}" method="GET">
+          {% csrf_token %}
+          <input type="text" placeholder="Food Search" name="food-search"/>
+          <button type="submit" class="btn">Search</button>
+        </form>
+      </div>
+       <div class="col">
+    <form action="{% url 'food_create'%}" method="POST">
+      {% csrf_token %}     
+      <label for="food" class="form-label">Choose from the list</label>
+      <select class="form-control" onchange="populateFields(event)">
+        {% for food in data.hints %}
+        <option value="{{food.food}}"> {{ food.food.label }} - {{ food.food.nutrients.ENERC_KCAL }} cal/
+          100g</option>      
+        {% endfor %}          
+      </select>       
+      
+      <div class="mt-3">
+        <input type="hidden" name="name" id="food-name"/>
+        <label for="weight" class="form-label">Quantity(g)</label>
+        <input type="number" class="form-control" name="weight" id="quantity" />           
+        <input type="hidden" name="calories" id="food-calories"/>   
+        <input type="hidden" name="protein" id="food-protein"/>  
+        <input type="hidden" name="fat" id="food-fat"/>  
+        <input type="hidden" name="carbs" id="food-carbs"/> 
+        <button type="submit" class="btn mt-3">Add</button>
+      </form>
+      </div>
+    </div> 
+  </div>
+     
+      
+      <!-- <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Food</th>
+            <td>
+              {{ food.food.label }} - {{ food.food.nutrients.ENERC_KCAL }} cal/
+              100g
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Quantity(g)</th>
+            <td><input type="number"/></td>
+          </tr>
+          <tr>
+            <th scope="row">Add Food</th>
+            <td><button>Add</button></td>
+          </tr>
+        </tbody>
+      </table> -->
+    </form>
+    
+  </div>
+
+  <!-- Button trigger modal -->
+  <!-- <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#add-food"
+    onclick="openModal()"
+  >
+    Launch demo modal
+  </button> -->
+</div>
+
+<script>
+  function populateFields(event) {
+    const food = jQuery.parseJSON(event.target.value.replace(/'/g, '"'));
+   
+    $('#food-name').val(food.label);
+    $('#food-calories').val(food.nutrients.ENERC_KCAL);
+    $('#food-protein').val(food.nutrients.PROCNT);
+    $('#food-fat').val(food.nutrients.FAT);
+    $('#food-carbs').val(food.nutrients.CHOCDF);  
+
+  }
+
+</script>
+
+{% endblock %}

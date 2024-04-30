@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 import requests
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 import os
 from dotenv import load_dotenv
-from django.http import JsonResponse
-from .models import Search_Food
+from .models import Add_Food
+from.forms import AddFoodForm
+from js.jquery import jquery
+jquery.need()
 load_dotenv()
 
 
@@ -27,7 +30,11 @@ def account(request):
 
 
 def tracker(request):
-    return render(request, 'account/fooddiary.html')
+    food = Add_Food.objects.all()
+    return render(request, 'account/tracker.html', {
+        'food': food
+
+    })
 
 
 def search(request):
@@ -40,4 +47,13 @@ def search(request):
     response = requests.get(url)
     data = response.json()
     print(data)
-    return render(request, 'account/fooddiary.html', {'data': data})
+    return render(request, 'account/tracker.html', {'data': data})
+
+
+def food_create(request):
+    if request.method == 'POST':
+        form = AddFoodForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tracker')
+
