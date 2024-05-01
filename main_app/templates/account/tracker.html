@@ -46,7 +46,12 @@
         <input type="hidden" name="name" id="food-name" />
         <label for="weight" class="form-label">Quantity(g)</label>
         <input type="number" class="form-control" name="weight" id="quantity" />
-        <input type="hidden" name="calories" id="food-calories" />
+        <input
+          type="hidden"
+          name="calories"
+          value="{{form.calories}}"
+          id="food-calories"
+        />
         <input type="hidden" name="protein" id="food-protein" />
         <input type="hidden" name="fat" id="food-fat" />
         <input type="hidden" name="carbs" id="food-carbs" />

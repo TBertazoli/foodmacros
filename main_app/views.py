@@ -50,21 +50,30 @@ def search(request):
     return render(request, 'account/tracker.html', {'data': data, 'foods': foods})
 
 
-def food_create(request):
-    foods = Add_Food.objects.all()
-    if request.method == 'POST':
-        form = AddFoodForm(request.POST)
-        calories = float(request.POST['calories'])
-        weight = float(request.POST['weight'])
-        total = (calories*weight)/100
-        print(total)
+class FoodCreate(CreateView):
+    model = Add_Food
+    fields = ['name', 'weight', 'calories',
+              'protein', 'fat', 'carbs', 'meal', 'date']
+    success_url = '/account/tracker'
+    # foods = Add_Food.objects.all()
+    # if CreateView == 'POST':
+    #     form = AddFoodForm(CreateView.POST)
+    # calories = float(CreateView.POST['calories'])
+    # weight = float(CreateView.POST['weight'])
+    # total = (calories*weight)/100
+    # print(total)
 
-        request.POST['calories'] = total
-        # print('weight', form.weight)
-        print('here', form.is_valid(), form.errors)
-        if form.is_valid():
-            form.save()
-        return render(request, 'account/tracker.html', {'foods': foods})
+    # request.POST['calories'] = total
+    # print('weight', form.weight)
+    # print('here', form.is_valid(), form.errors)
+    # if form.is_valid():
+    #     form.save()
+    # success_url = render(
+    #     CreateView, 'account/tracker.html', {'foods': foods})
+
+    def for_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class FoodDelete(DeleteView):
