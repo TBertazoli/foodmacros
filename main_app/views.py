@@ -1,5 +1,7 @@
 from js.jquery import jquery
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 import requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -31,7 +33,7 @@ def account(request):
 
 
 def tracker(request):
-    foods = Add_Food.objects.all()
+    foods = Add_Food.objects.filter(user=request.user)
     return render(request, 'account/tracker.html', {
         'foods': foods
 
@@ -47,7 +49,7 @@ def search(request):
 
     response = requests.get(url)
     data = response.json()
-    foods = Add_Food.objects.all()
+    foods = Add_Food.objects.filter(user=request.user)
     print(data)
     return render(request, 'account/tracker.html', {'data': data, 'foods': foods})
 
@@ -116,4 +118,10 @@ def signup(request):
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
-    return render(request, 'registration/signup.html' , context)
+    return render(request, 'registration/signup.html', context)
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('home')

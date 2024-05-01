@@ -13,5 +13,6 @@ urlpatterns = [
          views.FoodDelete.as_view(), name='food_delete'),
     path('account/tracker/<int:pk>/update/',
          views.FoodUpdate.as_view(), name='food_update'),
+    path('accounts/logout/', views.logout_view, name='logout'),
     path('accounts/signup/', views.signup, name='signup')
 ]
