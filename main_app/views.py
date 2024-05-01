@@ -25,7 +25,6 @@ def contact(request):
 
 
 def account(request):
-    # response = get_url(request)
     return render(request, 'account/index.html')
 
 
@@ -62,13 +61,27 @@ def food_create(request):
         return render(request, 'account/tracker.html', {'foods': foods})
 
 
-# def food_delete(request):
-#     foodID = Add_Food.objects.get(pk=id)
-#     foods = Add_Food.objects.all()
-#     if request.method == 'POST':
-#         foodID.delete()
-#     return render(request, 'account/tracker.html', {'foods': foods})
-
 class FoodDelete(DeleteView):
     model = Add_Food
+    success_url = '/account/tracker'
+
+
+def food_update(request, pk):
+    food = Add_Food.objects.get(pk=pk)
+    return render(request, 'account/food_form.html', {
+        'food': food
+    })
+
+
+def food_save(request, pk):
+    foods = Add_Food.objects.all()
+    food = Add_Food.objects.get(pk=pk)
+    if request.method == 'POST':
+        food.save()
+    return render(request, 'account/tracker.html', {'foods': foods})
+
+
+class FoodUpdate(UpdateView):
+    model = Add_Food
+    fields = ['weight', 'meal', 'date']
     success_url = '/account/tracker'

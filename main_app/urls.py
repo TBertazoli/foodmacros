@@ -11,4 +11,8 @@ urlpatterns = [
     path('account/tracker/create', views.food_create, name='food_create'),
     path('account/tracker/<int:pk>/delete/',
          views.FoodDelete.as_view(), name='food_delete'),
+    path('account/tracker/<int:pk>/update/',
+         views.FoodUpdate.as_view(), name='food_update'),
+    # path('account/tracker/<int:pk>/save',
+    #      views.food_save, name='food_save'),
 ]
