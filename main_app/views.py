@@ -53,8 +53,14 @@ def search(request):
 def food_create(request):
     foods = Add_Food.objects.all()
     if request.method == 'POST':
-        print(request.POST)
         form = AddFoodForm(request.POST)
+        calories = float(request.POST['calories'])
+        weight = float(request.POST['weight'])
+        total = (calories*weight)/100
+        print(total)
+
+        request.POST['calories'] = total
+        # print('weight', form.weight)
         print('here', form.is_valid(), form.errors)
         if form.is_valid():
             form.save()

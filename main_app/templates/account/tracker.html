@@ -35,6 +35,7 @@
           onchange="populateFields(event)"
           value="{{food.food.foodId}}"
         >
+          <option selected disabled>Select from Dropdown</option>
           {% for food in data.hints %}
           <option value="{{food.food}}">
             {{ food.food.label }} - {{ food.food.nutrients.ENERC_KCAL }} cal/

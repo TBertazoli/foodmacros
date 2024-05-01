@@ -20,17 +20,18 @@
     <div class="col">
       <h3 class="libre-franklin-semibold mb-3">Update your food</h3>
       <form action="" method="POST">
-        {% csrf_token %}        
-        <h5>{{food.name}}</h5>
+        {% csrf_token %}           
+        
         <label for="weight" class="form-label mt-3">Quantity(g)</label>
-        <input type="number" class="form-control" name="weight" id="quantity" value={{food.weight}} />
+        <input type="number" class="form-control" name="weight" id="quantity" value={{form.weight.value}} />
         <label for="meal" class="form-label mt-3">Meal Type</label>
         <select name="meal" class="form-control">
-          <option value="B">Breakfast</option>
-          <option value="L">Lunch</option>
-          <option value="D">Dinner</option>
+
+          <option value="B" {% if form.meal.value == 'B'%} selected {% endif %}>Breakfast</option>
+          <option value="L"{% if form.meal.value == 'L'%} selected {% endif %}>Lunch</option>
+          <option value="D" {% if form.meal.value == 'D'%} selected {% endif %}>Dinner</option>
         </select>
-        <input type="date" name="date" />
+        <input type="date" name="date" value={{form.date.value}} />
         <input type="submit" class="btn mt-3" value="Save"></>
       </form>
     </div>
