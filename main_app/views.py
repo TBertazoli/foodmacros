@@ -54,10 +54,21 @@ def search(request):
 def food_create(request):
     foods = Add_Food.objects.all()
     if request.method == 'POST':
-
         print(request.POST)
         form = AddFoodForm(request.POST)
         print('here', form.is_valid(), form.errors)
         if form.is_valid():
             form.save()
         return render(request, 'account/tracker.html', {'foods': foods})
+
+
+# def food_delete(request):
+#     foodID = Add_Food.objects.get(pk=id)
+#     foods = Add_Food.objects.all()
+#     if request.method == 'POST':
+#         foodID.delete()
+#     return render(request, 'account/tracker.html', {'foods': foods})
+
+class FoodDelete(DeleteView):
+    model = Add_Food
+    success_url = '/account/tracker'

@@ -75,6 +75,8 @@
         <th>Protein(g)</th>
         <th>Fat(g)</th>
         <th>Carbs(g)</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -88,6 +90,16 @@
         <td>{{food.protein}}</td>
         <td>{{food.fat}}</td>
         <td>{{food.carbs}}</td>
+        <td>
+          <a><i class="fa-solid fa-pencil"></i></a>
+        </td>
+
+        <td>
+          <form action="{% url 'food_delete' food.id %}" method="POST">
+            {% csrf_token%}
+            <input type="submit" name="pk" value="Delete" />
+          </form>
+        </td>
       </tr>
     </tbody>
     {% endfor %}
