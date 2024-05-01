@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 from .models import Add_Food
 from .forms import AddFoodForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 jquery.need()
 load_dotenv()
 
@@ -100,3 +102,18 @@ class FoodUpdate(UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
     success_url = '/account/tracker'
+
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/account/tracker.html')
+        else:
+            error_message = 'Invalid sign up - try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html' , context)
