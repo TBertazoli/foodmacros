@@ -63,12 +63,18 @@ class DateInput(forms.DateInput):
 class FoodCreate(LoginRequiredMixin, CreateView):
     model = Add_Food
     fields = ['name', 'weight', 'calories',
-              'protein', 'fat', 'carbs', 'meal', 'date', 'user']
-    widgets = {
-        "date": DateInput()
-    }
+              'protein', 'fat', 'carbs', 'meal', 'date']
 
-    def for_valid(self, form):
+    # def calculate_macros(self, form):
+    #     form.instance.calories = self.form.instance.calories * \
+    #         self.form.instance.weight / 100
+    #     form.instance.protein = form.instance.protein * \
+    #         form.instance.weight / 100
+    #     form.instance.fat = form.instance.fat * form.instance.weight / 100
+    #     form.instance.carbs = form.instance.carbs * form.instance.weight / 100
+    #     return super().save(form)
+
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -78,7 +84,7 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
     success_url = '/account'
 
 
-class FoodUpdate(UpdateView):
+class FoodUpdate(LoginRequiredMixin, UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
 
