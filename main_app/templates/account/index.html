@@ -11,7 +11,7 @@
 </div>
 <div class="landing-zero container mt-5">
   <div class="row">
-    <div class="col">
+    <div class="col-md">
       <h3 class="libre-franklin-semibold mb-3">Step 1: Search for Food</h3>
       <form action="{% url 'search' %}" method="GET">
         {% csrf_token %}
@@ -19,7 +19,7 @@
         <button type="submit" class="btn m-0">Search</button>
       </form>
     </div>
-    <div class="col">
+    <div class="col-md">
       <h3 class="libre-franklin-semibold mb-3">Step 2: Select from the list</h3>
       <form action="{% url 'food_create'%}" method="POST">
         {% csrf_token %}
@@ -69,11 +69,11 @@
   {%if foods|length == 0 %}
   <p>No food added yet</p>
   {% else %}
-  <table class="table mt-5">
+  <table class="table mt-5 display">
     <thead>
       <tr>
-        <th>Meal Type</th>
         <th>Date</th>
+        <th>Meal Type</th>
         <th>Food Name</th>
         <th>Quantity(g)</th>
         <th>Calories (Kcal)</th>
@@ -87,8 +87,8 @@
     <tbody>
       {% for food in foods %}
       <tr>
-        <td>{{ food.get_meal_display }}</td>
         <td>{{ food.date }}</td>
+        <td>{{ food.get_meal_display }}</td>
         <td>{{ food.name }}</td>
         <td>{{food.weight}}</td>
         <td>{{food.calories}}</td>
