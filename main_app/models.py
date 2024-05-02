@@ -19,7 +19,7 @@ class Add_Food(models.Model):
     protein = models.FloatField(null=True, blank=True)
     fat = models.FloatField(null=True, blank=True)
     carbs = models.FloatField(null=True, blank=True)
-    date = models.DateField()
+    date = models.DateField(default=date.today)
     meal = models.CharField(
         choices=MEALS,
         default=MEALS[0][0])
@@ -30,7 +30,7 @@ class Add_Food(models.Model):
         return f'{self.name} ({self.id}) {self.get_meal_display()} on {self.date}'
 
     def get_absolute_url(self):
-        return reverse('tracker', kwargs={'pk': self.id})
+        return reverse('account')
 
     class Meta:
         ordering = ['-date']

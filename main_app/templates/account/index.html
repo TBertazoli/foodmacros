@@ -5,10 +5,6 @@
       <div class="col">
         <h3 class="libre-franklin-semibold">Account</h3>
         <h1 class="libre-franklin-extrabold">Welcome to you account page!</h1>
-        <h2 class="libre-franklin-light">
-          Here you can manage your account settings, view your profile, and
-          more.
-        </h2>
       </div>
     </div>
   </div>
@@ -16,31 +12,112 @@
 <div class="landing-zero container mt-5">
   <div class="row">
     <div class="col">
-      <div class="card" style="width: 18rem">
-        <div class="card-body">
-          <h5 class="card-title">Profile Page</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a href="#" class="btn btn-primary">See your profile</a>
-        </div>
-      </div>
+      <h3 class="libre-franklin-semibold mb-3">Step 1: Search for Food</h3>
+      <form action="{% url 'search' %}" method="GET">
+        {% csrf_token %}
+        <input type="text" placeholder="Food Search" name="food-search" />
+        <button type="submit" class="btn m-0">Search</button>
+      </form>
     </div>
     <div class="col">
-      <div class="card" style="width: 18rem">
-        <div class="card-body">
-          <h5 class="card-title">Food Diary</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a href="{% url 'tracker' %}" class="btn">Start tracking </a>
-        </div>
-      </div>
+      <h3 class="libre-franklin-semibold mb-3">Step 2: Select from the list</h3>
+      <form action="{% url 'food_create'%}" method="POST">
+        {% csrf_token %}
+        <label for="food">Choose from the list</label>
+        <select
+          class="form-control"
+          onchange="populateFields(event)"
+          value="{{food.food.foodId}}"
+        >
+          <option selected disabled>Select from Dropdown</option>
+          {% for food in data.hints %}
+          <option value="{{food.food}}">
+            {{ food.food.label }} - {{ food.food.nutrients.ENERC_KCAL }} cal/
+            100g
+          </option>
+          {% endfor %}
+        </select>
+        <input type="hidden" name="user" id="user_id" value="{{user.id}}" />
+        <input type="hidden" name="name" id="food-name" />
+        <label for="weight" class="form-label">Quantity(g)</label>
+        <input type="number" class="form-control" name="weight" id="quantity" />
+        <input
+          type="hidden"
+          name="calories"
+          value="{{form.calories}}"
+          id="food-calories"
+        />
+        <input type="hidden" name="protein" id="food-protein" />
+        <input type="hidden" name="fat" id="food-fat" />
+        <input type="hidden" name="carbs" id="food-carbs" />
+        <label for="meal" class="form-label mt-3">Meal Type</label>
+        <select name="meal" class="form-control">
+          <option value="B">Breakfast</option>
+          <option value="L">Lunch</option>
+          <option value="D">Dinner</option>
+        </select>
+        <input type="date" name="date" />
+        <button type="submit" class="btn mt-3">Add</button>
+      </form>
     </div>
   </div>
 </div>
 
+<div class="food-diary container-md mt-5">
+  <h3 class="libre-franklin-semibold">Food Diary</h3>
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th>Meal Type</th>
+        <th>Date</th>
+        <th>Food Name</th>
+        <th>Quantity(g)</th>
+        <th>Calories (Kcal)</th>
+        <th>Protein(g)</th>
+        <th>Fat(g)</th>
+        <th>Carbs(g)</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for food in foods %}
+      <tr>
+        <td>{{ food.get_meal_display }}</td>
+        <td>{{ food.date }}</td>
+        <td>{{ food.name }}</td>
+        <td>{{food.weight}}</td>
+        <td>{{food.calories}}</td>
+        <td>{{food.protein}}</td>
+        <td>{{food.fat}}</td>
+        <td>{{food.carbs}}</td>
+        <td>
+          <a href="{%url 'food_update' food.id %}"
+            ><i class="fa-solid fa-pencil"></i
+          ></a>
+        </td>
+
+        <td>
+          <form action="{% url 'food_delete' food.id %}" method="POST">
+            {% csrf_token%}
+            <input type="submit" name="pk" value="Delete" />
+          </form>
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+<script>
+  function populateFields(event) {
+    const food = jQuery.parseJSON(event.target.value.replace(/'/g, '"'));
+    $("#food-name").val(food.label);
+    $("#food-calories").val(food.nutrients.ENERC_KCAL);
+    $("#food-protein").val(food.nutrients.PROCNT);
+    $("#food-fat").val(food.nutrients.FAT);
+    $("#food-carbs").val(food.nutrients.CHOCDF);
+  }
+</script>
 
 {% endblock %}

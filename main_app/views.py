@@ -2,6 +2,7 @@ from js.jquery import jquery
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -28,15 +29,11 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+@login_required
 def account(request):
-    return render(request, 'account/index.html')
-
-
-def tracker(request):
     foods = Add_Food.objects.filter(user=request.user)
-    return render(request, 'account/tracker.html', {
+    return render(request, 'account/index.html', {
         'foods': foods
-
     })
 
 
@@ -51,14 +48,14 @@ def search(request):
     data = response.json()
     foods = Add_Food.objects.filter(user=request.user)
     print(data)
-    return render(request, 'account/tracker.html', {'data': data, 'foods': foods})
+    return render(request, 'account/index.html', {'data': data, 'foods': foods})
 
 
-class FoodCreate(CreateView):
+class FoodCreate(LoginRequiredMixin, CreateView):
     model = Add_Food
     fields = ['name', 'weight', 'calories',
-              'protein', 'fat', 'carbs', 'meal', 'date']
-    success_url = '/account/tracker'
+              'protein', 'fat', 'carbs', 'meal', 'date', 'user']
+
     # foods = Add_Food.objects.all()
     # if CreateView == 'POST':
     #     form = AddFoodForm(CreateView.POST)
@@ -80,30 +77,15 @@ class FoodCreate(CreateView):
         return super().form_valid(form)
 
 
-class FoodDelete(DeleteView):
+class FoodDelete(LoginRequiredMixin, DeleteView):
     model = Add_Food
-    success_url = '/account/tracker'
+    success_url = '/account/index'
 
 
-def food_update(request, pk):
-    food = Add_Food.objects.get(pk=pk)
-    return render(request, 'account/food_form.html', {
-        'food': food
-    })
-
-
-def food_save(request, pk):
-    foods = Add_Food.objects.all()
-    food = Add_Food.objects.get(pk=pk)
-    if request.method == 'POST':
-        food.save()
-    return render(request, 'account/tracker.html', {'foods': foods})
-
-
-class FoodUpdate(UpdateView):
+class FoodUpdate(LoginRequiredMixin, UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
-    success_url = '/account/tracker'
+    success_url = '/account/index'
 
 
 def signup(request):
@@ -113,7 +95,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/account/tracker.html')
+            return redirect('/account/index.html')
         else:
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()
