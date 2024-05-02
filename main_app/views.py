@@ -6,11 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import date
 import requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView, DetailView
 import os
 from dotenv import load_dotenv
 from .models import Add_Food
-from .forms import AddFoodForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 jquery.need()
@@ -62,22 +60,6 @@ class FoodCreate(LoginRequiredMixin, CreateView):
     fields = ['name', 'weight', 'calories',
               'protein', 'fat', 'carbs', 'meal', 'date', 'user']
 
-    # foods = Add_Food.objects.all()
-    # if CreateView == 'POST':
-    #     form = AddFoodForm(CreateView.POST)
-    # calories = float(CreateView.POST['calories'])
-    # weight = float(CreateView.POST['weight'])
-    # total = (calories*weight)/100
-    # print(total)
-
-    # request.POST['calories'] = total
-    # print('weight', form.weight)
-    # print('here', form.is_valid(), form.errors)
-    # if form.is_valid():
-    #     form.save()
-    # success_url = render(
-    #     CreateView, 'account/tracker.html', {'foods': foods})
-
     def for_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -91,7 +73,7 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
 class FoodUpdate(LoginRequiredMixin, UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
-    success_url = '/account'
+    success_url = '/account',
 
 
 def signup(request):
@@ -99,9 +81,10 @@ def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            print('form is valid')
             user = form.save()
             login(request, user)
-            return redirect('/account/index.html')
+            return redirect('/account')
         else:
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()
