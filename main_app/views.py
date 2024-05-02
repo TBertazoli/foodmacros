@@ -1,5 +1,6 @@
 from js.jquery import jquery
 from django.shortcuts import render, redirect
+from django import forms
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -55,10 +56,17 @@ def search(request):
     return render(request, 'account/index.html', {'data': data, 'foods': foods, "today": today})
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class FoodCreate(LoginRequiredMixin, CreateView):
     model = Add_Food
     fields = ['name', 'weight', 'calories',
               'protein', 'fat', 'carbs', 'meal', 'date', 'user']
+    widgets = {
+        "date": DateInput()
+    }
 
     def for_valid(self, form):
         form.instance.user = self.request.user
@@ -70,10 +78,9 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
     success_url = '/account'
 
 
-class FoodUpdate(LoginRequiredMixin, UpdateView):
+class FoodUpdate(UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
-    success_url = '/account',
 
 
 def signup(request):
