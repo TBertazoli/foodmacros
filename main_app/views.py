@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import date
 import requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -32,8 +33,12 @@ def contact(request):
 @login_required
 def account(request):
     foods = Add_Food.objects.filter(user=request.user)
+    today = date.today().strftime("%Y-%m-%d")
+    print(today)
     return render(request, 'account/index.html', {
-        'foods': foods
+        'foods': foods,
+        'today': today,
+
     })
 
 
@@ -47,8 +52,9 @@ def search(request):
     response = requests.get(url)
     data = response.json()
     foods = Add_Food.objects.filter(user=request.user)
-    print(data)
-    return render(request, 'account/index.html', {'data': data, 'foods': foods})
+    today = date.today().strftime("%Y-%m-%d")
+    print(today)
+    return render(request, 'account/index.html', {'data': data, 'foods': foods, "today": today})
 
 
 class FoodCreate(LoginRequiredMixin, CreateView):
@@ -79,13 +85,13 @@ class FoodCreate(LoginRequiredMixin, CreateView):
 
 class FoodDelete(LoginRequiredMixin, DeleteView):
     model = Add_Food
-    success_url = '/account/index'
+    success_url = '/account'
 
 
 class FoodUpdate(LoginRequiredMixin, UpdateView):
     model = Add_Food
     fields = ['weight', 'meal', 'date']
-    success_url = '/account/index'
+    success_url = '/account'
 
 
 def signup(request):

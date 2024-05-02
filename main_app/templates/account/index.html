@@ -40,13 +40,14 @@
         <input type="hidden" name="user" id="user_id" value="{{user.id}}" />
         <input type="hidden" name="name" id="food-name" />
         <label for="weight" class="form-label">Quantity(g)</label>
-        <input type="number" class="form-control" name="weight" id="quantity" />
         <input
-          type="hidden"
-          name="calories"
-          value="{{form.calories}}"
-          id="food-calories"
+          type="number"
+          class="form-control"
+          name="weight"
+          id="quantity"
+          min="0"
         />
+        <input type="hidden" name="calories" id="food-calories" />
         <input type="hidden" name="protein" id="food-protein" />
         <input type="hidden" name="fat" id="food-fat" />
         <input type="hidden" name="carbs" id="food-carbs" />
@@ -56,7 +57,7 @@
           <option value="L">Lunch</option>
           <option value="D">Dinner</option>
         </select>
-        <input type="date" name="date" />
+        <input type="date" name="date" id="date-now" value="{{today}}" />
         <button type="submit" class="btn mt-3">Add</button>
       </form>
     </div>
