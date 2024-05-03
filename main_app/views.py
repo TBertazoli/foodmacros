@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django import forms
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import date
 import requests
@@ -32,8 +33,14 @@ def contact(request):
 @login_required
 def account(request):
     foods = Add_Food.objects.filter(user=request.user)
+    for food in foods:
+        food.calories = round(food.calories * food.weight / 100, 2)
+        food.protein = round(food.protein * food.weight / 100, 2)
+        food.fat = round(food.fat * food.weight / 100, 2)
+        food.carbs = round(food.carbs * food.weight / 100, 2)
+
     today = date.today().strftime("%Y-%m-%d")
-    print(today)
+    print(foods)
     return render(request, 'account/index.html', {
         'foods': foods,
         'today': today,
@@ -64,15 +71,6 @@ class FoodCreate(LoginRequiredMixin, CreateView):
     model = Add_Food
     fields = ['name', 'weight', 'calories',
               'protein', 'fat', 'carbs', 'meal', 'date']
-
-    # def calculate_macros(self, form):
-    #     form.instance.calories = self.form.instance.calories * \
-    #         self.form.instance.weight / 100
-    #     form.instance.protein = form.instance.protein * \
-    #         form.instance.weight / 100
-    #     form.instance.fat = form.instance.fat * form.instance.weight / 100
-    #     form.instance.carbs = form.instance.carbs * form.instance.weight / 100
-    #     return super().save(form)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
