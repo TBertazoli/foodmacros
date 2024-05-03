@@ -37,6 +37,7 @@ FoodMetrics is a user-friendly online platform meticulously crafted to simplify 
 - Django
 - Neon
 - AI
+- API (https://www.edamam.com/)
 
 ## Getting Started
 
@@ -56,7 +57,7 @@ Tatiana Bertazoli
 
 ## Future Enhancements
 
-1 - Improve the display food table to separate per day  
+1 - Improve the display food table to show food consumer per day
 2 - Add water intake
 
 ## Questions
